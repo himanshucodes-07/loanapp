@@ -14,37 +14,57 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 public class LoanApplication {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /* ================= USER SNAPSHOT DATA ================= */
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String mobileNumber;
+
+    @Column(nullable = false)
+    private String city;
+
+    @Column(nullable = false)
+    private Long annualIncome;
+
+    /* ================= RELATIONS ================= */
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "loan_type_id", nullable = false)
     private LoanType loanType;
 
+    /* ================= LOAN DETAILS ================= */
     @Column(nullable = false)
     private Long requestedAmount;
 
     @Column(nullable = false)
-    private Integer requestedDuration; // in months
+    private Integer requestedDuration;
 
-    @Column(columnDefinition = "VARCHAR(50) DEFAULT 'PENDING'")
-    private String status; // PENDING, APPROVED, REJECTED, WITHDRAWN
+    @Column(length = 50)
+    private String status; // PENDING, APPROVED, REJECTED
 
     @Column(columnDefinition = "TEXT")
     private String rejectionReason;
 
-    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+    @Column(nullable = false)
     private Boolean userConsent;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    /* ================= AUDIT ================= */
     private LocalDateTime createdAt;
-
-    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
     @PrePersist

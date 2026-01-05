@@ -6,15 +6,36 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LoanApplicationMapper {
+
     public LoanApplicationDTO toDTO(LoanApplication loanApplication) {
+
         if (loanApplication == null) {
             return null;
         }
+
         return LoanApplicationDTO.builder()
                 .id(loanApplication.getId())
-                .userId(loanApplication.getUser().getId())
-                .loanTypeId(loanApplication.getLoanType().getId())
-                .loanTypeName(loanApplication.getLoanType().getName())
+
+                // ✅ NULL-SAFE USER
+                .userId(
+                        loanApplication.getUser() != null
+                                ? loanApplication.getUser().getId()
+                                : null
+                )
+
+                // ✅ NULL-SAFE LOAN TYPE (defensive)
+                .loanTypeId(
+                        loanApplication.getLoanType() != null
+                                ? loanApplication.getLoanType().getId()
+                                : null
+                )
+
+                .loanTypeName(
+                        loanApplication.getLoanType() != null
+                                ? loanApplication.getLoanType().getName()
+                                : null
+                )
+
                 .requestedAmount(loanApplication.getRequestedAmount())
                 .requestedDuration(loanApplication.getRequestedDuration())
                 .status(loanApplication.getStatus())

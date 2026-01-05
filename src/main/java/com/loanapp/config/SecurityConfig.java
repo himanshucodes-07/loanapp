@@ -53,44 +53,44 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        //  ALWAYS allow preflight
+                        // Allow preflight
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // AUTH APIs
+                        // Auth APIs
                         .requestMatchers(HttpMethod.POST,
                                 "/api/auth/register",
                                 "/api/auth/login",
                                 "/api/auth/refresh-token"
                         ).permitAll()
 
+                        // OTP
                         .requestMatchers(HttpMethod.POST,
                                 "/api/otp/send",
                                 "/api/otp/verify"
                         ).permitAll()
 
-                        // PUBLIC GET APIs
+                        // Public GET APIs
                         .requestMatchers(HttpMethod.GET,
-                                "/api/loan-types",
-                                "/api/loan-offers/**"
+                                "/api/loan-types/**"
                         ).permitAll()
-                               /// PUBLIC APIs (NO LOGIN)
-                                .requestMatchers(HttpMethod.POST,
-                                        "/api/loan-applications/check-eligibility"
-                                ).permitAll()
 
 
+                        // ✅ PUBLIC eligibility check (guest allowed)
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/loan-applications/**"
+                        ).permitAll()
 
-                                //  Swagger
+
+                        // Swagger
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/v3/api-docs/**"
                         ).permitAll()
 
-                        //  EVERYTHING ELSE
+                        // Everything else secured
                         .anyRequest().authenticated()
                 )
-
 
                 .addFilterBefore(
                         jwtAuthenticationFilter,
@@ -107,7 +107,7 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of("http://localhost:3000"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(false); //  IMPORTANT
+        config.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

@@ -35,14 +35,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         String method = request.getMethod();
 
-        return method.equalsIgnoreCase("OPTIONS")   // ✅ CORS preflight
+        return method.equalsIgnoreCase("OPTIONS")
                 || path.startsWith("/api/auth/")
                 || path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs")
                 || path.equals("/api/loan-types")
+                || path.startsWith("/api/loan-applications/check-eligibility")
                 || path.equals("/error")
                 || path.equals("/favicon.ico");
     }
+
 
     @Override
     protected void doFilterInternal(
