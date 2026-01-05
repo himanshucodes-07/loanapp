@@ -1,0 +1,68 @@
+LOAN HUB - COMPLETE DEPLOYMENT GUIDE
+====================================
+
+STEP 1: ENVIRONMENT SETUP
+- Download and install Java 17: https://www.oracle.com/java/technologies/downloads/
+- Download and install PostgreSQL 12+: https://www.postgresql.org/download/
+- Download and install Maven 3.6+: https://maven.apache.org/download.cgi
+
+STEP 2: DATABASE SETUP
+1. Open PostgreSQL Command Line
+2. Run the following SQL commands:
+
+   CREATE DATABASE loan_app_db;
+   CREATE USER loan_user WITH PASSWORD 'loan_password123';
+   ALTER ROLE loan_user SET client_encoding TO 'utf8';
+   ALTER ROLE loan_user SET default_transaction_isolation TO 'read committed';
+   ALTER ROLE loan_user SET default_transaction_deferrable TO on;
+   ALTER ROLE loan_user SET timezone TO 'UTC';
+   GRANT ALL PRIVILEGES ON DATABASE loan_app_db TO loan_user;
+
+STEP 3: BUILD & RUN SPRING BOOT
+
+1. Navigate to project directory
+2. Run: mvn clean install
+3. Run: mvn spring-boot:run
+
+The application will start on: http://localhost:8080
+
+STEP 4: ACCESS THE APPLICATION
+
+- Open browser and go to: http://localhost:8080
+- Static website will load automatically
+
+STEP 5: TEST THE APPLICATION
+
+1. Click "Get Started" button
+2. Fill in eligibility form
+3. Click "Check Eligibility"
+4. You should see success message
+
+SAMPLE LOGIN CREDENTIALS:
+Email: demo@example.com
+Password: Demo@123456
+
+TROUBLESHOOTING:
+
+Q: Application won't start?
+A: Check if PostgreSQL is running and database is created
+
+Q: Port 8080 is in use?
+A: Change server.port in src/main/resources/application.properties
+
+Q: Database connection error?
+A: Verify credentials in application.properties match your PostgreSQL setup
+
+Q: CORS errors?
+A: Check cors.allowed-origins in application.properties
+
+PRODUCTION DEPLOYMENT:
+
+1. Build JAR: mvn clean package -DskipTests
+2. Set environment variables for production database
+3. Run: java -jar target/loan-lead-generation-1.0.0.jar
+4. Use a reverse proxy like Nginx
+5. Configure SSL certificates
+6. Monitor logs and performance
+
+For more details, see README.md
