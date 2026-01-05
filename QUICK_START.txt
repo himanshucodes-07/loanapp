@@ -1,0 +1,242 @@
+LOAN HUB - QUICK START GUIDE
+=============================
+
+**BEFORE YOU START:**
+✓ Java 17+ installed
+✓ PostgreSQL 12+ installed and running
+✓ Maven 3.6+ installed
+
+**STEP 1: Setup Database (5 minutes)**
+================================================
+
+1. Open PostgreSQL Command Line (pgAdmin or psql):
+   - Windows: Open "SQL Shell (psql)"
+   - Mac/Linux: Open terminal and run: psql -U postgres
+
+2. Copy and paste ALL of these commands:
+
+   CREATE DATABASE loan_app_db;
+   CREATE USER loan_user WITH PASSWORD 'loan_password123';
+   ALTER ROLE loan_user SET client_encoding TO 'utf8';
+   ALTER ROLE loan_user SET default_transaction_isolation TO 'read committed';
+   ALTER ROLE loan_user SET default_transaction_deferrable TO on;
+   ALTER ROLE loan_user SET timezone TO 'UTC';
+   GRANT ALL PRIVILEGES ON DATABASE loan_app_db TO loan_user;
+
+3. Verify by running: \l
+   You should see "loan_app_db" in the list
+
+4. Exit: \q
+
+
+**STEP 2: Download and Extract Project (2 minutes)**
+================================================
+
+1. Download the ZIP file from v0
+2. Extract to desired location
+3. Open Command Prompt/Terminal in the extracted folder
+
+
+**STEP 3: Build Spring Boot (5 minutes)**
+================================================
+
+1. Run command:
+   mvn clean install
+
+2. Wait for "BUILD SUCCESS" message
+
+
+**STEP 4: Start Application (2 minutes)**
+================================================
+
+1. Run command:
+   mvn spring-boot:run
+
+2. Wait for message:
+   "Started LoanAppApplication in X.XXX seconds"
+
+3. Application is now running on: http://localhost:8080
+
+
+**STEP 5: Access Application in Browser (1 minute)**
+================================================
+
+1. Open your browser (Chrome, Firefox, Edge, Safari)
+2. Go to: http://localhost:8080
+3. You should see the beautiful Loan Hub website!
+
+
+**TEST THE APPLICATION:**
+================================================
+
+Homepage Features:
+- Click "Check Eligibility Now" button
+- Fill in the form with sample data:
+  * Loan Type: Personal Loan
+  * Mobile: 9876543210
+  * City: Delhi
+  * Monthly Income: 50000
+  * Loan Amount: 500000
+  * Click "Check Eligibility"
+
+You should see a success message!
+
+Login/Register:
+- Click "Register" to create new account
+- Enter details and register
+- Then login with those credentials
+- Check your eligibility for different loan types
+
+View Offers:
+- After eligibility check, you'll see loan offers
+- Click "Apply Now" to apply with partners
+- You'll be redirected to:
+  * BankSathi (https://www.banksathi.com)
+  * EarnKaro (https://www.earnkaro.com)
+  * Cuelinks (https://www.cuelinks.com)
+
+
+**SAMPLE TEST CREDENTIALS:**
+================================================
+
+Email: demo@example.com
+Password: Demo@123456
+
+
+**API ENDPOINTS (for testing with Postman/Curl):**
+================================================
+
+Register User:
+POST http://localhost:8080/api/auth/register
+Body: {
+  "name": "John Doe",
+  "email": "john@example.com",
+  "mobile": "9876543210",
+  "password": "password123"
+}
+
+Login:
+POST http://localhost:8080/api/auth/login
+Body: {
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+Get Loan Types:
+GET http://localhost:8080/api/loan-types
+Headers: Authorization: Bearer {YOUR_JWT_TOKEN}
+
+Check Eligibility:
+POST http://localhost:8080/api/loan-applications/check-eligibility
+Headers: Authorization: Bearer {YOUR_JWT_TOKEN}
+Body: {
+  "loanTypeId": 1,
+  "monthlyIncome": 50000,
+  "requestedAmount": 500000,
+  "city": "Delhi",
+  "mobileNumber": "9876543210",
+  "consentGiven": true
+}
+
+
+**WHAT'S INCLUDED:**
+================================================
+
+✓ Spring Boot 3.2 Backend
+✓ PostgreSQL Database
+✓ JWT Authentication
+✓ Beautiful HTML Frontend (served from Spring Boot)
+✓ Responsive CSS with Animations
+✓ JavaScript API Integration
+✓ Partner Links (BankSathi, EarnKaro, Cuelinks)
+✓ Complete Error Handling
+✓ Input Validation
+✓ Security Features
+
+
+**FOLDER STRUCTURE:**
+================================================
+
+src/
+├── main/
+│   ├── java/com/loanapp/
+│   │   ├── controller/      ← REST API endpoints
+│   │   ├── service/         ← Business logic
+│   │   ├── entity/          ← Database entities
+│   │   ├── repository/      ← Data access
+│   │   ├── dto/             ← API request/response
+│   │   ├── security/        ← JWT authentication
+│   │   ├── config/          ← Spring configuration
+│   │   └── exception/       ← Error handling
+│   └── resources/
+│       ├── application.properties
+│       ├── static/          ← CSS, JavaScript, images
+│       ├── templates/       ← HTML pages
+│       └── db/init.sql      ← Database setup
+
+
+**PAGES AVAILABLE:**
+================================================
+
+http://localhost:8080/          → Home
+http://localhost:8080/loans     → Browse Loans
+http://localhost:8080/check-eligibility → Check Eligibility
+http://localhost:8080/loan-offers       → View Offers
+http://localhost:8080/login     → Login Page
+http://localhost:8080/register  → Registration
+http://localhost:8080/about     → About Us
+http://localhost:8080/contact   → Contact Us
+
+
+**TROUBLESHOOTING:**
+================================================
+
+ERROR: "Connection refused" or "Cannot connect to database"
+FIX: Make sure PostgreSQL is running:
+     Windows: Services → PostgreSQL → Start
+     Mac: Open Postgres.app or use: brew services start postgresql
+
+ERROR: Port 8080 is already in use
+FIX: Kill the process or change port in application.properties:
+     server.port=8081
+
+ERROR: "BUILD FAILURE" from Maven
+FIX: Run: mvn clean
+     Then: mvn install
+
+ERROR: Cannot find application.properties
+FIX: Make sure you're in the correct directory
+     Run: dir (Windows) or ls (Mac/Linux)
+     You should see "pom.xml" and "src" folder
+
+ERROR: Cannot access http://localhost:8080
+FIX: Wait 10-15 seconds after seeing "Started LoanAppApplication"
+     Check console for any errors
+     Try clearing browser cache (Ctrl+Shift+Delete)
+
+
+**NEXT STEPS:**
+================================================
+
+1. Customize loan types in database
+2. Add your bank/NBFC partnerships
+3. Configure email notifications
+4. Add analytics and reporting
+5. Deploy to production server
+6. Set up monitoring and alerts
+
+
+**SUPPORT:**
+================================================
+
+For issues:
+1. Check DEPLOYMENT_GUIDE.txt
+2. Check README.md
+3. Review application logs
+4. Check Spring Boot official docs: https://spring.io/projects/spring-boot
+
+
+**VERSION:**
+v1.0.0 - Complete Full-Stack Loan Application
+
+Ready to get started? Open your browser to http://localhost:8080!

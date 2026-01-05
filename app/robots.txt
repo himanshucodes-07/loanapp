@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Allow: /loans
+Allow: /check-eligibility
+Allow: /loan-offers
+Disallow: /admin
+Disallow: /private
